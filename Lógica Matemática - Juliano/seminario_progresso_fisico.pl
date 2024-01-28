@@ -83,3 +83,5 @@ progresso :-
     classificar_progresso_peso(Peso_Anterior, Peso_Atual, Classificao_Peso, Porcentagem_Peso),
 	write('O seu peso antigo era '), write(Peso_Anterior), write(' kg e o seu peso atual é '), write(Peso_Atual), write(' kg.'), nl,
     write('Você '), write(Classificao_Peso), write(', totalizando uma diferença de peso de '), write(Porcentagem_Peso), write('%.'), nl, nl.
+
+% para rodar o programa Progresso Físico, digite "progresso" e pressione Enter
