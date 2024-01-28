@@ -1,9 +1,6 @@
 calcular_imc(Altura, Peso, IMC) :-
     IMC is round( (Peso / (Altura * Altura)) * 10) / 10.
 
-formatar_numero(Numero, Precisao, NumeroFormatado) :-
-    	NumeroFormatado is round(Numero * 10) / 10.
-
 classificar_imc(IMC, Classificacao_IMC) :-
     IMC < 18.5,
     Classificacao_IMC = 'Abaixo do peso'.
