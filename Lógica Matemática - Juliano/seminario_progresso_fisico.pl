@@ -1,31 +1,15 @@
 calcular_imc(Altura, Peso, IMC) :-
     IMC is round( (Peso / (Altura * Altura)) * 10) / 10.
 
-classificar_imc(IMC, Classificacao_IMC) :-
-    IMC < 18.5,
-    Classificacao_IMC = 'Abaixo do peso'.
+% Classificar o IMC
+classificar_imc(IMC, 'Abaixo do peso') :- IMC < 18.5, !.
+classificar_imc(IMC, 'Peso normal') :- IMC >= 18.5, IMC < 25, !.
+classificar_imc(IMC, 'Sobrepeso') :- IMC >= 25, IMC < 30, !.
+classificar_imc(IMC, 'Obesidade grau I') :- IMC >= 30, IMC < 35, !.
+classificar_imc(IMC, 'Obesidade grau II') :- IMC >= 35, IMC < 40, !.
+classificar_imc(IMC, 'Obesidade grau III') :- IMC >= 40.
 
-classificar_imc(IMC, Classificacao_IMC) :-
-    IMC >= 18.5, IMC < 25,
-    Classificacao_IMC = 'Peso normal'.
-
-classificar_imc(IMC, Classificacao_IMC) :-
-    IMC >= 25, IMC < 30,
-    Classificacao_IMC = 'Sobrepeso'.
-
-classificar_imc(IMC, Classificacao_IMC) :-
-    IMC >= 30, IMC < 35,
-    Classificacao_IMC = 'Obesidade grau I'.
-
-classificar_imc(IMC, Classificacao_IMC) :-
-    IMC >= 35, IMC < 40,
-    Classificacao_IMC = 'Obesidade grau II'.
-
-classificar_imc(IMC, Classificacao_IMC) :-
-    IMC >= 40,
-    Classificacao_IMC = 'Obesidade grau III'.
-
-
+% Classificar o progresso da altura
 classificar_progresso_altura(Altura_Antiga, Altura_Atual, Classificacao, Porcentagem) :-
     Altura_Antiga > Altura_Atual, Classificacao = 'cresceu', Porcentagem is round( (((Altura_Antiga / Altura_Atual) - 1) * 100) * 10) / 10.
 
@@ -35,7 +19,7 @@ classificar_progresso_altura(Altura_Antiga, Altura_Atual, Classificacao, Porcent
 classificar_progresso_altura(Altura_Antiga, Altura_Atual, Classificacao, Porcentagem) :-
     Altura_Antiga == Altura_Atual, Classificacao = 'não cresceu nem diminuiu', Porcentagem is 0.
 
-
+% Classificar o progresso do peso
 classificar_progresso_peso(Peso_Antigo, Peso_Atual, Classificacao, Porcentagem) :-
     Peso_Antigo > Peso_Atual, Classificacao = 'emagreceu', Porcentagem is round( (((Peso_Antigo / Peso_Atual) - 1) * 100) * 10) /10.
 
