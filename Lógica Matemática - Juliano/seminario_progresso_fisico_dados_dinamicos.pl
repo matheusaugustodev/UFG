@@ -1,5 +1,5 @@
 % cliente de teste
-cliente('Matheus', vip, trimestral, 1.89, 1.95, 65, 76.2).
+cliente('Matheus', vip, trimestral, ganho, 1.89, 1.95, 65, 76.2).
 
 
 calcular_imc(Altura, Peso, IMC) :-
@@ -36,7 +36,7 @@ classificar_progresso_peso(Peso_Antigo, Peso_Atual, Classificacao, Porcentagem, 
 % Buscar o progresso físico da pessoa pelo NOME
 progresso(Nome_Cliente) :-
     
-    cliente(Nome_Cliente, Plano, Duracao, Altura_Anterior, Altura_Atual, Peso_Anterior, Peso_Atual),
+    cliente(Nome_Cliente, Plano, Duracao, Objetivo, Altura_Anterior, Altura_Atual, Peso_Anterior, Peso_Atual),
 
     calcular_imc(Altura_Anterior, Peso_Anterior, IMC_Antigo),
     classificar_imc(IMC_Antigo, Classificacao_Antiga),
@@ -48,7 +48,7 @@ progresso(Nome_Cliente) :-
 
     classificar_progresso_peso(Peso_Anterior, Peso_Atual, Classificao_Peso, Porcentagem_Peso, Diferenca_Peso),
     
-    
+
     nl, write('PROGRESSO FÍSICO - '), write(Nome_Cliente), nl, nl,
 
     write('- O IMC antigo de '), write(Nome_Cliente), write(' era igual a '), write(IMC_Antigo), write(' - Classificação: '), write(Classificacao_Antiga), nl,
