@@ -3,7 +3,7 @@
 
 % BASE DE CLIENTES
 % modelo:  cliente(Nome, Plano, Duracao, Altura_Antiga, Altura_Atual, Peso_Antigo, Peso_Atual).
-
+/*
 cliente(joana, básico, semestral, definição, 1.89, 1.95, 65, 76.2).
 cliente(maria, básico, mensal, emagrecimento, 1.60, 1.61, 68, 65).
 cliente(nicole, básico, trimestral, ganho, 1.70, 1.80, 72, 75).
@@ -14,6 +14,7 @@ cliente(pedro, vip, mensal, emagrecimento, 1.75, 1.70, 78, 75).
 cliente(fernanda, vip, trimestral, definição, 1.65, 1.80, 70, 68).
 cliente(joao, premium, semestral, ganho, 1.85, 1.85, 90, 88).
 cliente(patricia, premium, mensal, definição, 1.70, 1.70, 72, 70).
+*/
 
 % Fatos sobre os planos e descontos
 plano(básico, 70).
@@ -97,6 +98,8 @@ definir_altura(Antiga, Atual) :-
 
 
 /*
+Regras que em tese deveriam definir a proficiência do aluno em questão, com base no tempo
+
 iniciante(Nome, TEMPO) :- ( MES is TEMPO / 30, MES =< 3).
 intermediario(Nome, TEMPO) :- ( MES is TEMPO / 30, MES > 3, MES =< 12).
 avancado(Nome, TEMPO) :- ( MES is TEMPO / 30, MES > 12).
@@ -144,8 +147,6 @@ definir_perfilDeTreino(Objetivo_Cliente),
 % Para rodar, digite matricula e pressione Enter.
 
 
-
-
 % Início da função PROGRESSO
 % essa função tem como parâmetro Nome_Cliente, portanto, use a função da seguinte forma: progresso(matheus)
 % essa função avalia o Índice de Massa Corporal (IMC) da pessoa antes e depois da academia, classificando-o como abaixo do peso, normal, sobrepeso, etc. Também compara as medidas de peso e altura da pessoa.
@@ -163,42 +164,43 @@ classificar_imc(IMC, 'Obesidade grau II') :- IMC >= 35, IMC < 40.
 classificar_imc(IMC, 'Obesidade grau III') :- IMC >= 40.
 
 % Classificar o progresso da altura
-classificar_progresso_altura(Antiga, Atual, Classificacao, Porcentagem, Diferenca) :-
+classificar_progresso_altura(Antiga, Atual) :-
     Antiga < Atual,
-    Classificacao = 'cresceu',
     Porcentagem is ((Atual / Antiga) - 1) * 100,
-    Diferenca is Atual - Antiga.
+    Diferenca is Atual - Antiga,
+    write(' cresceu '), format('~2f', Diferenca), write(' metros, totalizando uma diferença de altura de '),
+    format('~2f', Porcentagem), write('%.').
 
-classificar_progresso_altura(Antiga, Atual, Classificacao, Porcentagem, Diferenca) :-
+classificar_progresso_altura(Antiga, Atual) :-
     Antiga > Atual,
-    Classificacao = 'diminuiu',
     Porcentagem is ((Antiga / Atual) - 1) * 100,
-    Diferenca is Antiga - Atual.
+    Diferenca is Antiga - Atual,
+    write(' diminuiu '), format('~2f', Diferenca), write(' metros, totalizando uma diferença de altura de '),
+    format('~2f', Porcentagem), write('%.').
 
-classificar_progresso_altura(Antiga, Atual, Classificacao, Porcentagem, Diferenca) :-
+classificar_progresso_altura(Antiga, Atual) :-
     Antiga == Atual,
-    Classificacao = 'não cresceu nem diminuiu',
-    Porcentagem is 0,
-    Diferenca is 0.
+    write(' não cresceu nem diminuiu.').
 
 % Classificar o progresso do peso
-classificar_progresso_peso(Antigo, Atual, Classificacao, Porcentagem, Diferenca) :-
+classificar_progresso_peso(Antigo, Atual) :-
     Antigo > Atual,
-    Classificacao = 'emagreceu',
     Porcentagem is ((Antigo / Atual) - 1) * 100,
-    Diferenca is Antigo - Atual.
+    Diferenca is Antigo - Atual,
+    write(' emagreceu '), format('~2f', Diferenca), write(' kg, totalizando uma diferença de peso de '),
+    format('~2f', Porcentagem), write('%.').
 
-classificar_progresso_peso(Antigo, Atual, Classificacao, Porcentagem, Diferenca) :-
+classificar_progresso_peso(Antigo, Atual) :-
     Antigo < Atual,
-    Classificacao = 'engordou',
     Porcentagem is ((Atual / Antigo) - 1) * 100,
-    Diferenca is Atual - Antigo.
+    Diferenca is Atual - Antigo,
+    write(' engordou '), format('~2f', Diferenca), write(' kg, totalizando uma diferença de peso de '),
+    format('~2f', Porcentagem), write('%.').
 
-classificar_progresso_peso(Antigo, Atual, Classificacao, Porcentagem, Diferenca) :-
+classificar_progresso_peso(Antigo, Atual) :-
     Antigo == Atual,
-    Classificacao = 'não engordou nem emagreceu',
-    Porcentagem is 0,
-    Diferenca is 0.
+    write(' não engordou nem emagreceu.').
+
 
 % Buscar o progresso físico da pessoa pelo NOME
 progresso(Nome_Cliente) :-
@@ -211,18 +213,13 @@ progresso(Nome_Cliente) :-
     calcular_imc(Altura_Atual, Peso_Atual, IMC_Atual),
     classificar_imc(IMC_Atual, Classificacao_Atual),
 
-    classificar_progresso_altura(Altura_Anterior, Altura_Atual, Classificao_Altura, Porcentagem_Altura, Diferenca_Altura),
-    classificar_progresso_peso(Peso_Anterior, Peso_Atual, Classificao_Peso, Porcentagem_Peso, Diferenca_Peso),
-    
-
     nl, write('PROGRESSO FÍSICO - '), write(Nome_Cliente), nl, nl,
 
     write('- O IMC antigo de '), write(Nome_Cliente), write(' era igual a '), format('~2f', IMC_Antigo), write(' - Classificação: '), write(Classificacao_Antiga), nl,
     write('- Atualmente, o IMC de '), write(Nome_Cliente), write(' é igual a '), format('~2f', IMC_Atual), write(' - Classificação: '), write(Classificacao_Atual), nl,nl,
     
     write('- A altura antiga de '), write(Nome_Cliente), write(' era igual a '), format('~2f', Altura_Anterior), write(' metros e a altura atual é igual a '), write(Altura_Atual), write(' metros.'), nl,
-    write(' - '), write(Nome_Cliente), write(' '), write(Classificao_Altura), write(' '), format('~2f', [Diferenca_Altura]), write(' metros, totalizando uma diferença de altura de '), format('~2f', Porcentagem_Altura), write('%.'), nl, nl,
+    write(' - '), write(Nome_Cliente), classificar_progresso_altura(Altura_Anterior, Altura_Atual), nl, nl,
     
     write('- O peso antigo de '), write(Nome_Cliente), write(' era igual a '), write(Peso_Anterior), write(' kg e o peso atual é igual a '), write(Peso_Atual), write(' kg.'), nl,
-    write(' - '), write(Nome_Cliente), write(' '), write(Classificao_Peso), write(' '), format('~2f', Diferenca_Peso), write(' kg, totalizando uma diferença de peso de '), format('~2f', Porcentagem_Peso), write('%.'), nl.
-
+    write(' - '), write(Nome_Cliente), classificar_progresso_peso(Peso_Anterior, Peso_Atual), nl.
