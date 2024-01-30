@@ -96,14 +96,6 @@ definir_altura(Antiga, Atual) :-
 	nl, write('Qual era a sua Altura antes da academia (em metros)? '), read(Antiga),
 	write('Qual é a sua Altura Atual (em metros)? '), read(Atual).
 
-
-/*
-Regras que em tese deveriam definir a proficiência do aluno em questão, com base no tempo
-
-iniciante(Nome, TEMPO) :- ( MES is TEMPO / 30, MES =< 3).
-intermediario(Nome, TEMPO) :- ( MES is TEMPO / 30, MES > 3, MES =< 12).
-avancado(Nome, TEMPO) :- ( MES is TEMPO / 30, MES > 12).
-*/
 matricula :-
 	write('Digite seu nome para realizar matrícula: '),
 	read(Nome),
@@ -204,22 +196,25 @@ classificar_progresso_peso(Antigo, Atual) :-
 
 % Buscar o progresso físico da pessoa pelo NOME
 progresso(Nome_Cliente) :-
-    
-    cliente(Nome_Cliente, _, _, _, Altura_Anterior, Altura_Atual, Peso_Anterior, Peso_Atual),
+    (   
+      cliente(Nome_Cliente, _, _, _, Altura_Anterior, Altura_Atual, Peso_Anterior, Peso_Atual) ->
 
-    calcular_imc(Altura_Anterior, Peso_Anterior, IMC_Antigo),
-    classificar_imc(IMC_Antigo, Classificacao_Antiga),
-    
-    calcular_imc(Altura_Atual, Peso_Atual, IMC_Atual),
-    classificar_imc(IMC_Atual, Classificacao_Atual),
+		calcular_imc(Altura_Anterior, Peso_Anterior, IMC_Antigo),
+		classificar_imc(IMC_Antigo, Classificacao_Antiga),
 
-    nl, write('PROGRESSO FÍSICO - '), write(Nome_Cliente), nl, nl,
+		calcular_imc(Altura_Atual, Peso_Atual, IMC_Atual),
+		classificar_imc(IMC_Atual, Classificacao_Atual),
 
-    write('- O IMC antigo de '), write(Nome_Cliente), write(' era igual a '), format('~2f', IMC_Antigo), write(' - Classificação: '), write(Classificacao_Antiga), nl,
-    write('- Atualmente, o IMC de '), write(Nome_Cliente), write(' é igual a '), format('~2f', IMC_Atual), write(' - Classificação: '), write(Classificacao_Atual), nl,nl,
-    
-    write('- A altura antiga de '), write(Nome_Cliente), write(' era igual a '), format('~2f', Altura_Anterior), write(' metros e a altura atual é igual a '), write(Altura_Atual), write(' metros.'), nl,
-    write(' - '), write(Nome_Cliente), classificar_progresso_altura(Altura_Anterior, Altura_Atual), nl, nl,
-    
-    write('- O peso antigo de '), write(Nome_Cliente), write(' era igual a '), write(Peso_Anterior), write(' kg e o peso atual é igual a '), write(Peso_Atual), write(' kg.'), nl,
-    write(' - '), write(Nome_Cliente), classificar_progresso_peso(Peso_Anterior, Peso_Atual), nl.
+		nl, write('PROGRESSO FÍSICO - '), write(Nome_Cliente), nl, nl,
+
+		write('- O IMC antigo de '), write(Nome_Cliente), write(' era igual a '), format('~2f', IMC_Antigo), write(' - Classificação: '), write(Classificacao_Antiga), nl,
+		write('- Atualmente, o IMC de '), write(Nome_Cliente), write(' é igual a '), format('~2f', IMC_Atual), write(' - Classificação: '), write(Classificacao_Atual), nl,nl,
+
+		write('- A altura antiga de '), write(Nome_Cliente), write(' era igual a '), format('~2f', Altura_Anterior), write(' metros e a altura atual é igual a '), format('~2f', Altura_Atual), write(' metros.'), nl,
+		write(' - '), write(Nome_Cliente), classificar_progresso_altura(Altura_Anterior, Altura_Atual), nl, nl,
+
+		write('- O peso antigo de '), write(Nome_Cliente), write(' era igual a '), write(Peso_Anterior), write(' kg e o peso atual é igual a '), write(Peso_Atual), write(' kg.'), nl,
+		write(' - '), write(Nome_Cliente), classificar_progresso_peso(Peso_Anterior, Peso_Atual), nl
+    ;
+      write('Cliente não encontrado. Verifique o nome e tente novamente.'), nl
+   ).
