@@ -1,0 +1,19 @@
+Árvore Splay
+
+Árvore Splay é uma árvore de busca binária, que é auto ajustável da seguinte maneira:
+Toda vez que acessar um nó da árvore (busca, inserção, deleção), deve-se realizar alterar a árvore, tornando o nó recém acessado a raiz da árvore modificada.
+
+Dessa forma, nós que são acessados com frequência sempre ficam próximos da raiz, enquanto os nós que são pouco acessados, ficam mais longe da raiz.
+
+Desvantagem: uma árvore desse tipo de árvore pode ficar desequilibrada, de modo que um acesso a um nó, pode ter um desempenho caro. 
+
+Vantagem: ao realizar uma sequência de acessos aos nós de um árvore, os casos de desempenho caro se tornam raros e obtêm-se um bom desempenho.
+
+
+Etapas (rotações/splaying):
+Zig (rotação para direita)
+Zag (rotação para esquerda)
+Zig-Zag (zig seguido de zag)
+Zag-Zig (zag seguido de zig)
+Zig-Zig (zig seguido de zig)
+Zag-Zag (zag seguido de zag)
